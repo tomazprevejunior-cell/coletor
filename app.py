@@ -10,7 +10,11 @@ def geo_ip(ip):
     """GeoIP via ipinfo.io (sem token = limite baixo)."""
     import urllib.request
     try:
-        with urllib.request.urlopen(f"https://ipinfo.io/{ip}/json", timeout=3) as r:
+        token = os.environ.get("IPINFO_TOKEN", "")
+        url = f"https://ipinfo.io/{ip}/json"
+        if token: url += f"?token={token}"
+        req = urllib.request.Request(url, headers={"User-Agent": "coletor-fly/1.0"})
+        with urllib.request.urlopen(req, timeout=3) as r:
             return json.loads(r.read())
     except Exception as e:
         return {"err": str(e)}
@@ -18,6 +22,10 @@ def geo_ip(ip):
 def log(rec):
     with open(LOG, "a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+@app.route("/")
+def home():
+    return "ok", 200
 
 @app.route("/track")
 def track():
