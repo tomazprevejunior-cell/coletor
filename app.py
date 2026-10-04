@@ -32,7 +32,7 @@ def is_human(req):
     self_ip = os.environ.get("SELF_IP", "")
     if self_ip and ip == self_ip: return False
     ua_l = ua.lower()
-    for bot in ("bot", "crawler", "spider", "preview", "fetcher", "safebrowsing", "scan", "headless"):
+    for bot in ("bot", "crawler", "spider", "preview", "fetcher", "safebrowsing", "scan", "headless", "mediapartners", "adsbot", "googlebot", "bingpreview", "facebook", "twitter", "linkedin", "pinterest", "yandex", "baidu", "duckduck", "applebot", "petalbot", "ahrefsbot", "semrush", "mj12", "dotbot"):
         if bot in ua_l: return False
     if ua.count("Mozilla/5.0") >= 2: return False
     if not ua.strip(): return False
